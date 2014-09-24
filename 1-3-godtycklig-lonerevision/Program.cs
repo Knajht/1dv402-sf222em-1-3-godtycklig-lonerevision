@@ -10,9 +10,6 @@ namespace _1_3_godtycklig_lonerevision
     {
         static void Main(string[] args)
         {
-            int noOfSalaries = ReadInt("Ange antal löner att mata in: ");
-
-
             //Deklarera variabler
             //Input: Antal löner
             //Input: Varje lön
@@ -22,10 +19,36 @@ namespace _1_3_godtycklig_lonerevision
             //Beräkna medellön, presentera
             //Beräkna lönespridning, presentera
             //Presentera de inmatade lönerna
-            //Börja om med tangent - Avsluta med esc
+            //Börja om med tangent - Avsluta med esc |- Check, kanske finputsas
+            
+
+            int noOfSalaries = ReadInt("Ange antal löner att mata in: ");
+
+            if(noOfSalaries < 2)
+            {
+                Console.WriteLine("Du måste mata in minst två löner för att kunna göra en beräkning!");
+            }
+            else
+            {
+                ProcessSalaries(noOfSalaries);
+            }
+
+            Console.WriteLine("Tryck tangent för ny beräkning - Esc avslutar");
+            
+            if((Console.ReadKey(true).Key != ConsoleKey.Escape) == true)
+            {
+                Main(null);
+            }
+            else
+            {
+                return;
+            }
+
+
+
         }
 
-        static void ProcessSalaries()
+        static void ProcessSalaries(int count)
         {
             
         }
