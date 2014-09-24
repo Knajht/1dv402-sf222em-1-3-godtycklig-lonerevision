@@ -10,7 +10,22 @@ namespace _1_3_godtycklig_lonerevision
     {
         static void Main(string[] args)
         {
-            //Nu kollar vi så att VS-projektet laddas upp
+            //Deklarera variabler
+            //Input: Antal löner
+            //Input: Varje lön
+            //Skicka till array
+
+            //
+        }
+
+        static void ProcessSalaries()
+        {
+            
+        }
+
+        static int ReadInt()
+        {
+            return 0;
         }
     }
 }
