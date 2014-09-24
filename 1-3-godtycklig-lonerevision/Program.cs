@@ -54,28 +54,50 @@ namespace _1_3_godtycklig_lonerevision
 
             for (int i = 0; i < count; i++)
             {
-                Console.Write("Ange lön nummer {0}: ", i+1);
-                salaries[i] = int.Parse(Console.ReadLine());
-
+                salaries[i] = ReadInt(String.Format("Ange lön nummer {0}: ", i + 1));
             }
 
-            Console.WriteLine("Du angav lönerna: ");
-            foreach (int i in salaries)
+//Klona arrayen och sortera den
+            int[] salariesSorted = (int[]) salaries.Clone();
+            Array.Sort(salariesSorted);
+
+//Hitta medianvärde i den klonade
+            double median;
+            int medianIndex = count / 2;
+
+            if(count % 2 == 1)
             {
-                Console.WriteLine(i);
+                median = salariesSorted[medianIndex];
             }
+            else
+            {
+                median = ((double)salariesSorted[medianIndex - 1] + salariesSorted[medianIndex]) / 2;
+            }
+
+            Console.WriteLine("Medianlönen är {0:c}: ", median);
+            
+
+            //Console.WriteLine("Du angav lönerna: ");
+            //foreach (int i in salaries)
+            //{
+            //    Console.WriteLine(i);
+            //}
+
+            //Console.WriteLine("Sorterade är de: ");
+            //foreach (int i in salariesSorted)
+            //{
+            //    Console.WriteLine(i);
+            //}
 
         }
 
         static int ReadInt(string prompt)
         {
-            bool startOver;
+            bool startOver = true;
             int count = 0;
 
             do
             {
-                startOver = false;
-
                 Console.Write(prompt);
                 try
                 {
@@ -84,11 +106,11 @@ namespace _1_3_godtycklig_lonerevision
                     {
                         throw new SystemException();
                     }
+                    startOver = false;
                 }
                 catch
                 {
                     Console.WriteLine("Var vänlig ange ett heltal formaterat som siffror.");
-                    startOver = true;
                 }
             } while (startOver == true);
             return count;
