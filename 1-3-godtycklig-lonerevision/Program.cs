@@ -10,20 +10,6 @@ namespace _1_3_godtycklig_lonerevision
     {
         static void Main(string[] args)
         {
-            //WORKFLOW
-            //Deklarera variabler
-            //Input: Antal löner
-            //Input: Varje lön
-            //Skicka till array
-            //Kopiera till medianarray, sorteras
-            //Beräkna medianlön, presentera
-            //Beräkna medellön, presentera
-            //Beräkna lönespridning, presentera
-            //Presentera de inmatade lönerna
-            //Börja om med tangent - Avsluta med esc |- Check, kanske finputsas
-
-            //NOTER
-            //Göra While/DoWhile-loopar istället för att återanropa funktioner
             bool startOver = true;
 
             do
@@ -32,14 +18,17 @@ namespace _1_3_godtycklig_lonerevision
 
                 if(noOfSalaries < 2)
                 {
+                    Console.BackgroundColor = ConsoleColor.DarkRed;
                     Console.WriteLine("Du måste mata in minst två löner för att kunna göra en beräkning!");
+                    Console.ResetColor();
                 }
                 else
                 {
                     ProcessSalaries(noOfSalaries);
                 }
-
-                Console.WriteLine("Tryck tangent för ny beräkning - Esc avslutar");
+                Console.BackgroundColor = ConsoleColor.DarkGreen;
+                Console.WriteLine("\nTryck tangent för ny beräkning - Esc avslutar\n");
+                Console.ResetColor();
 
                 startOver = Console.ReadKey(true).Key != ConsoleKey.Escape;
 
@@ -52,16 +41,20 @@ namespace _1_3_godtycklig_lonerevision
         {
             int[] salaries = new int[count];
 
+            Console.WriteLine("");
+
             for (int i = 0; i < count; i++)
             {
                 salaries[i] = ReadInt(String.Format("Ange lön nummer {0}: ", i + 1));
             }
 
+            Console.WriteLine("");
+
 //Klona arrayen och sortera den
             int[] salariesSorted = (int[]) salaries.Clone();
             Array.Sort(salariesSorted);
 
-//Hitta medianvärde i den klonade
+//Hitta medianvärde i den klonade (Klumpig funktion, kommer dock inte på något smartare just nu)
             double median;
             int medianIndex = count / 2;
             if(count % 2 == 1)
@@ -72,24 +65,24 @@ namespace _1_3_godtycklig_lonerevision
             {
                 median = ((double)salariesSorted[medianIndex - 1] + salariesSorted[medianIndex]) / 2;
             }
-
-            Console.WriteLine("Medianlönen är: {0:c}", Math.Round(median));
+            Console.WriteLine("---------------------------------------------");
+            Console.WriteLine("Medianlönen är: {0:c0}", Math.Round(median));
             
 //Hitta medellön i originalarrayen
-            Console.WriteLine("Medellönen är: {0:c}", Math.Round(salaries.Average()));
+            Console.WriteLine("Medellönen är: {0:c0}", Math.Round(salaries.Average()));
 
 //Hitta lönespridning
-            Console.WriteLine("Lönespridningen är: {0:c}",salaries.Max() - salaries.Min());
+            Console.WriteLine("Lönespridningen är: {0:c0}",salaries.Max() - salaries.Min());
+            Console.WriteLine("---------------------------------------------");
 
-//Skriv ut lönerna i originalordning, tre per rad
-
+//Skriv ut lönerna i originalordning, tre per rad (Här finns antagligen också mycket smartare sätt att göra det på)
             int rowCount = count;
             int index = 0;
 
             Console.WriteLine("Du angav lönerna: ");
             while(rowCount >= 3)
             {
-                Console.WriteLine(String.Format("{0, 10} {1, 10} {2, 10}", salaries[index], salaries[index + 1], salaries[index + 2]));
+                Console.WriteLine("{0, 10} {1, 10} {2, 10}", salaries[index], salaries[index + 1], salaries[index + 2]);
                 index += 3;
                 rowCount -= 3;
             }
@@ -105,11 +98,6 @@ namespace _1_3_godtycklig_lonerevision
                 index += 1;
                 rowCount -= 1;
             }
-            else
-            {
-                return;
-            }
-
         }
 
         static int ReadInt(string prompt)
@@ -131,7 +119,9 @@ namespace _1_3_godtycklig_lonerevision
                 }
                 catch
                 {
-                    Console.WriteLine("Var vänlig ange ett heltal formaterat som siffror.");
+                    Console.BackgroundColor = ConsoleColor.DarkRed;
+                    Console.WriteLine("Var vänlig ange ett positivt heltal formaterat som siffror.\n");
+                    Console.ResetColor();
                 }
             } while (startOver == true);
             return count;
