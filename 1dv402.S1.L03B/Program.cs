@@ -10,13 +10,6 @@ namespace _1_3_godtycklig_lonerevision
     {
         static void Main(string[] args)
         {
-//METODER ATT IMPLEMENTERA
-//IsContinuing() - Check
-//GetDispersion() - Check 
-//GetMedian() - Check 
-//ReadSalaries() - Check
-//ViewMessage() - Check
-//ViewResult() - Check
             do
             {
                 int noOfSalaries = ReadInt("Ange antal löner att mata in: ");
@@ -29,8 +22,6 @@ namespace _1_3_godtycklig_lonerevision
                 {
                     int[] salaries = ReadSalaries(noOfSalaries);
                     ViewResult(salaries);
-                    
-                    //ProcessSalaries(noOfSalaries);
                 }
             } while (IsContinuing() == true);
 
@@ -50,7 +41,7 @@ namespace _1_3_godtycklig_lonerevision
                     count = int.Parse(Console.ReadLine());
                     if (count < 0)
                     {
-                        throw new SystemException();
+                        throw new ArgumentOutOfRangeException();
                     }
                     startOver = false;
                 }
@@ -73,16 +64,16 @@ namespace _1_3_godtycklig_lonerevision
         {
             int count = source.Length;
             int median;
-
-            Array.Sort(source);
-
+            int[] clone = (int[])source.Clone(); 
+            
+            Array.Sort(clone);
             if (count % 2 == 1)
             {
-                median = source[count / 2];
+                median = clone[count / 2];
             }
             else
             {
-                median = (source[(count / 2) - 1] + source[count / 2]) / 2;
+                median = (clone[(count / 2) - 1] + clone[count / 2]) / 2;
             }
 
             return median;
@@ -132,28 +123,44 @@ namespace _1_3_godtycklig_lonerevision
             Console.WriteLine("Lönespridningen är: {0:c0}", GetDispersion(salaries));
             Console.WriteLine("---------------------------------------------");
 
-            //Skriv ut lönerna i originalordning, tre per rad (Här finns antagligen också mycket smartare sätt att göra det på)
-            int rowCount = salaries.Length;
+//Det här är min gamla presentation av lönerna. Nu har jag hittat ett bättre sätt (Se nedan) men 
+//eftersom jag hittade det hos en av förra årets elever (pn222ez) på GitHub i samma labb vill jag låta detta
+//stå kvar om ni skulle anse det vara fusk. Märk väl, jag kopierade inte någonting utan kollade igenom det
+//och skrev en egen version. Bara så ni vet.
+
+            //int rowCount = salaries.Length;
+            //int index = 0;
+
+            //Console.WriteLine("Du angav lönerna: ");
+            //while (rowCount >= 3)
+            //{
+            //    Console.WriteLine("{0, 10} {1, 10} {2, 10}", salaries[index], salaries[index + 1], salaries[index + 2]);
+            //    index += 3;
+            //    rowCount -= 3;
+            //}
+            //if (rowCount == 2)
+            //{
+            //    Console.WriteLine("{0, 10} {1, 10}", salaries[index], salaries[index + 1]);
+            //    index += 2;
+            //    rowCount -= 2;
+            //}
+            //else if (rowCount == 1)
+            //{
+            //    Console.WriteLine("{0, 10}", salaries[index]);
+            //    index += 1;
+            //    rowCount -= 1;
+            //}
+
             int index = 0;
 
-            Console.WriteLine("Du angav lönerna: ");
-            while (rowCount >= 3)
+            foreach (int i in salaries)
             {
-                Console.WriteLine("{0, 10} {1, 10} {2, 10}", salaries[index], salaries[index + 1], salaries[index + 2]);
-                index += 3;
-                rowCount -= 3;
-            }
-            if (rowCount == 2)
-            {
-                Console.WriteLine("{0, 10} {1, 10}", salaries[index], salaries[index + 1]);
-                index += 2;
-                rowCount -= 2;
-            }
-            else if (rowCount == 1)
-            {
-                Console.WriteLine("{0, 10}", salaries[index]);
-                index += 1;
-                rowCount -= 1;
+                Console.Write("{0, 15}", i);
+                if (((index + 1) % 3) == 0)
+                {
+                    Console.WriteLine();
+                }
+                index++;
             }
         }
     }
