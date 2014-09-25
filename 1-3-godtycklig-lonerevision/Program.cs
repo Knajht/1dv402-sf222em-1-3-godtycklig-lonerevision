@@ -64,7 +64,6 @@ namespace _1_3_godtycklig_lonerevision
 //Hitta medianvärde i den klonade
             double median;
             int medianIndex = count / 2;
-
             if(count % 2 == 1)
             {
                 median = salariesSorted[medianIndex];
@@ -74,20 +73,42 @@ namespace _1_3_godtycklig_lonerevision
                 median = ((double)salariesSorted[medianIndex - 1] + salariesSorted[medianIndex]) / 2;
             }
 
-            Console.WriteLine("Medianlönen är {0:c}: ", median);
+            Console.WriteLine("Medianlönen är: {0:c}", Math.Round(median));
             
+//Hitta medellön i originalarrayen
+            Console.WriteLine("Medellönen är: {0:c}", Math.Round(salaries.Average()));
 
-            //Console.WriteLine("Du angav lönerna: ");
-            //foreach (int i in salaries)
-            //{
-            //    Console.WriteLine(i);
-            //}
+//Hitta lönespridning
+            Console.WriteLine("Lönespridningen är: {0:c}",salaries.Max() - salaries.Min());
 
-            //Console.WriteLine("Sorterade är de: ");
-            //foreach (int i in salariesSorted)
-            //{
-            //    Console.WriteLine(i);
-            //}
+//Skriv ut lönerna i originalordning, tre per rad
+
+            int rowCount = count;
+            int index = 0;
+
+            Console.WriteLine("Du angav lönerna: ");
+            while(rowCount >= 3)
+            {
+                Console.WriteLine(String.Format("{0, 10} {1, 10} {2, 10}", salaries[index], salaries[index + 1], salaries[index + 2]));
+                index += 3;
+                rowCount -= 3;
+            }
+            if(rowCount == 2)
+            {
+                Console.WriteLine("{0, 10} {1, 10}", salaries[index], salaries[index + 1]);
+                index += 2;
+                rowCount -= 2;
+            }
+            else if(rowCount == 1)
+            {
+                Console.WriteLine("{0, 10}", salaries[index]);
+                index += 1;
+                rowCount -= 1;
+            }
+            else
+            {
+                return;
+            }
 
         }
 
