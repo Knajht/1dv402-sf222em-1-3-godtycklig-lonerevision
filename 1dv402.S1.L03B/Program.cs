@@ -10,29 +10,26 @@ namespace _1_3_godtycklig_lonerevision
     {
         static void Main(string[] args)
         {
-            bool startOver = true;
-
+//METODER ATT IMPLEMENTERA
+//IsContinuing() - Check
+//GetDispersion()
+//GetMedian()
+//ReadSalaries()
+//ViewMessage() - Check
+//ViewResult()
             do
             {
                 int noOfSalaries = ReadInt("Ange antal löner att mata in: ");
 
                 if(noOfSalaries < 2)
                 {
-                    Console.BackgroundColor = ConsoleColor.DarkRed;
-                    Console.WriteLine("Du måste mata in minst två löner för att kunna göra en beräkning!");
-                    Console.ResetColor();
+                    ViewMessage("Du måste mata in minst två löner för att kunna göra en beräkning!", true);
                 }
                 else
                 {
                     ProcessSalaries(noOfSalaries);
                 }
-                Console.BackgroundColor = ConsoleColor.DarkGreen;
-                Console.WriteLine("\nTryck tangent för ny beräkning - Esc avslutar\n");
-                Console.ResetColor();
-
-                startOver = Console.ReadKey(true).Key != ConsoleKey.Escape;
-
-            } while (startOver == true);
+            } while (IsContinuing() == true);
 
             return;
         }
@@ -119,9 +116,7 @@ namespace _1_3_godtycklig_lonerevision
                 }
                 catch
                 {
-                    Console.BackgroundColor = ConsoleColor.DarkRed;
-                    Console.WriteLine("Var vänlig ange ett positivt heltal formaterat som siffror.\n");
-                    Console.ResetColor();
+                    ViewMessage("Var vänlig ange ett positivt heltal formaterat som siffror.\n", true);
                 }
             } while (startOver == true);
             return count;
@@ -140,7 +135,8 @@ namespace _1_3_godtycklig_lonerevision
 
         static bool IsContinuing()
         {
-            throw new NotImplementedException();
+            ViewMessage("\nTryck tangent för ny beräkning - Esc avslutar\n", false);
+            return Console.ReadKey(true).Key != ConsoleKey.Escape;
         }
         
         static int[] ReadSalaries(int count)
@@ -150,7 +146,19 @@ namespace _1_3_godtycklig_lonerevision
 
         static void ViewMessage(string message, bool isError)
         {
-            throw new NotImplementedException();
+            if(isError == true)
+            {
+                Console.BackgroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine(message);
+                Console.ResetColor();
+            }
+            else
+            {
+                Console.BackgroundColor = ConsoleColor.DarkGreen;
+                Console.WriteLine(message);
+                Console.ResetColor();
+            }
+            
         }
 
         static void ViewResult(int[] salaries)
