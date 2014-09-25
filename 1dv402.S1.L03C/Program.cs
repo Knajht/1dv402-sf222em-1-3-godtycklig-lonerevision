@@ -28,6 +28,12 @@ namespace _1_3_godtycklig_lonerevision
             return;
         }
 
+        static bool IsContinuing()
+        {
+            ViewMessage("\nTryck tangent för ny beräkning - Esc avslutar\n", ConsoleColor.Blue, ConsoleColor.Yellow);
+            return Console.ReadKey(true).Key != ConsoleKey.Escape;
+        }
+
         static int ReadInt(string prompt)
         {
             bool startOver = true;
@@ -53,12 +59,6 @@ namespace _1_3_godtycklig_lonerevision
             return count;
         }
 
-        static bool IsContinuing()
-        {
-            ViewMessage("\nTryck tangent för ny beräkning - Esc avslutar\n", ConsoleColor.Blue, ConsoleColor.Yellow);
-            return Console.ReadKey(true).Key != ConsoleKey.Escape;
-        }
-        
         static int[] ReadSalaries(int count)
         {
             int[] salaries = new int[count];
@@ -72,14 +72,10 @@ namespace _1_3_godtycklig_lonerevision
 
         static void ViewMessage(string message, ConsoleColor backgroundColor, ConsoleColor foregroundColor)
         {
-
             Console.BackgroundColor = backgroundColor;
             Console.ForegroundColor = foregroundColor;
             Console.WriteLine(message);
             Console.ResetColor();
-
-
-            
         }
 
         static void ViewResult(int[] salaries)
@@ -146,9 +142,9 @@ namespace _1_3_godtycklig_lonerevision
         {
             int count = source.Length;
             int median;
-            int[] clone = (int[])source.Clone();
 
-            Array.Sort(clone);
+            int[] clone = source.OrderBy(x => x).ToArray();
+            
             if (count % 2 == 1)
             {
                 median = clone[count / 2];
