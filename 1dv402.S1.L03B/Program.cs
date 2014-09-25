@@ -12,9 +12,9 @@ namespace _1_3_godtycklig_lonerevision
         {
 //METODER ATT IMPLEMENTERA
 //IsContinuing() - Check
-//GetDispersion()
-//GetMedian()
-//ReadSalaries()
+//GetDispersion() - Check (Bryt ut ViewResult sen)
+//GetMedian() - Check (Bryt ut ViewResult sen)
+//ReadSalaries() - Check
 //ViewMessage() - Check
 //ViewResult()
             do
@@ -36,41 +36,14 @@ namespace _1_3_godtycklig_lonerevision
 
         static void ProcessSalaries(int count)
         {
-            int[] salaries = new int[count];
+            int[] salaries = ReadSalaries(count);
 
-            Console.WriteLine("");
+            int median = GetMedian(salaries);
 
-            for (int i = 0; i < count; i++)
-            {
-                salaries[i] = ReadInt(String.Format("Ange lön nummer {0}: ", i + 1));
-            }
-
-            Console.WriteLine("");
-
-//Klona arrayen och sortera den
-            int[] salariesSorted = (int[]) salaries.Clone();
-            Array.Sort(salariesSorted);
-
-//Hitta medianvärde i den klonade (Klumpig funktion, kommer dock inte på något smartare just nu)
-            double median;
-            int medianIndex = count / 2;
-            if(count % 2 == 1)
-            {
-                median = salariesSorted[medianIndex];
-            }
-            else
-            {
-                median = ((double)salariesSorted[medianIndex - 1] + salariesSorted[medianIndex]) / 2;
-            }
-            Console.WriteLine("---------------------------------------------");
-            Console.WriteLine("Medianlönen är: {0:c0}", Math.Round(median));
-            
 //Hitta medellön i originalarrayen
             Console.WriteLine("Medellönen är: {0:c0}", Math.Round(salaries.Average()));
 
-//Hitta lönespridning
-            Console.WriteLine("Lönespridningen är: {0:c0}",salaries.Max() - salaries.Min());
-            Console.WriteLine("---------------------------------------------");
+            int dispersion = GetDispersion(salaries);
 
 //Skriv ut lönerna i originalordning, tre per rad (Här finns antagligen också mycket smartare sätt att göra det på)
             int rowCount = count;
@@ -125,12 +98,34 @@ namespace _1_3_godtycklig_lonerevision
 
         static int GetDispersion(int[] source)
         {
-            throw new NotImplementedException();
+            int dispersion = source.Max() - source.Min();
+
+            Console.WriteLine("Lönespridningen är: {0:c0}", dispersion);
+            Console.WriteLine("---------------------------------------------");
+
+            return dispersion;
         }
         
         static int GetMedian(int[] source)
         {
-            throw new NotImplementedException();
+            int count = source.Length;
+            int median;
+
+            Array.Sort(source);
+
+            if (count % 2 == 1)
+            {
+                median = source[count / 2];
+            }
+            else
+            {
+                median = (source[(count / 2) - 1] + source[count / 2]) / 2;
+            }
+
+            Console.WriteLine("---------------------------------------------");
+            Console.WriteLine("Medianlönen är: {0:c0}", (median));
+
+            return median;
         }
 
         static bool IsContinuing()
@@ -141,7 +136,13 @@ namespace _1_3_godtycklig_lonerevision
         
         static int[] ReadSalaries(int count)
         {
-            throw new NotImplementedException();
+            int[] salaries = new int[count];
+
+            for (int i = 0; i < count; i++)
+            {
+                salaries[i] = ReadInt(String.Format("Ange lön nummer {0}: ", i + 1));
+            }
+            return salaries;
         }
 
         static void ViewMessage(string message, bool isError)
