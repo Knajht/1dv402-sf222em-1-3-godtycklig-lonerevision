@@ -12,11 +12,11 @@ namespace _1_3_godtycklig_lonerevision
         {
 //METODER ATT IMPLEMENTERA
 //IsContinuing() - Check
-//GetDispersion() - Check (Bryt ut ViewResult sen)
-//GetMedian() - Check (Bryt ut ViewResult sen)
+//GetDispersion() - Check 
+//GetMedian() - Check 
 //ReadSalaries() - Check
 //ViewMessage() - Check
-//ViewResult()
+//ViewResult() - Check
             do
             {
                 int noOfSalaries = ReadInt("Ange antal löner att mata in: ");
@@ -27,47 +27,14 @@ namespace _1_3_godtycklig_lonerevision
                 }
                 else
                 {
-                    ProcessSalaries(noOfSalaries);
+                    int[] salaries = ReadSalaries(noOfSalaries);
+                    ViewResult(salaries);
+                    
+                    //ProcessSalaries(noOfSalaries);
                 }
             } while (IsContinuing() == true);
 
             return;
-        }
-
-        static void ProcessSalaries(int count)
-        {
-            int[] salaries = ReadSalaries(count);
-
-            int median = GetMedian(salaries);
-
-//Hitta medellön i originalarrayen
-            Console.WriteLine("Medellönen är: {0:c0}", Math.Round(salaries.Average()));
-
-            int dispersion = GetDispersion(salaries);
-
-//Skriv ut lönerna i originalordning, tre per rad (Här finns antagligen också mycket smartare sätt att göra det på)
-            int rowCount = count;
-            int index = 0;
-
-            Console.WriteLine("Du angav lönerna: ");
-            while(rowCount >= 3)
-            {
-                Console.WriteLine("{0, 10} {1, 10} {2, 10}", salaries[index], salaries[index + 1], salaries[index + 2]);
-                index += 3;
-                rowCount -= 3;
-            }
-            if(rowCount == 2)
-            {
-                Console.WriteLine("{0, 10} {1, 10}", salaries[index], salaries[index + 1]);
-                index += 2;
-                rowCount -= 2;
-            }
-            else if(rowCount == 1)
-            {
-                Console.WriteLine("{0, 10}", salaries[index]);
-                index += 1;
-                rowCount -= 1;
-            }
         }
 
         static int ReadInt(string prompt)
@@ -93,15 +60,11 @@ namespace _1_3_godtycklig_lonerevision
                 }
             } while (startOver == true);
             return count;
-            
         }
 
         static int GetDispersion(int[] source)
         {
             int dispersion = source.Max() - source.Min();
-
-            Console.WriteLine("Lönespridningen är: {0:c0}", dispersion);
-            Console.WriteLine("---------------------------------------------");
 
             return dispersion;
         }
@@ -121,9 +84,6 @@ namespace _1_3_godtycklig_lonerevision
             {
                 median = (source[(count / 2) - 1] + source[count / 2]) / 2;
             }
-
-            Console.WriteLine("---------------------------------------------");
-            Console.WriteLine("Medianlönen är: {0:c0}", (median));
 
             return median;
         }
@@ -164,7 +124,37 @@ namespace _1_3_godtycklig_lonerevision
 
         static void ViewResult(int[] salaries)
         {
-            throw new NotImplementedException();
+            Console.WriteLine("---------------------------------------------");
+            Console.WriteLine("Medianlönen är: {0:c0}", (GetMedian(salaries)));
+
+            Console.WriteLine("Medellönen är: {0:c0}", salaries.Average());
+
+            Console.WriteLine("Lönespridningen är: {0:c0}", GetDispersion(salaries));
+            Console.WriteLine("---------------------------------------------");
+
+            //Skriv ut lönerna i originalordning, tre per rad (Här finns antagligen också mycket smartare sätt att göra det på)
+            int rowCount = salaries.Length;
+            int index = 0;
+
+            Console.WriteLine("Du angav lönerna: ");
+            while (rowCount >= 3)
+            {
+                Console.WriteLine("{0, 10} {1, 10} {2, 10}", salaries[index], salaries[index + 1], salaries[index + 2]);
+                index += 3;
+                rowCount -= 3;
+            }
+            if (rowCount == 2)
+            {
+                Console.WriteLine("{0, 10} {1, 10}", salaries[index], salaries[index + 1]);
+                index += 2;
+                rowCount -= 2;
+            }
+            else if (rowCount == 1)
+            {
+                Console.WriteLine("{0, 10}", salaries[index]);
+                index += 1;
+                rowCount -= 1;
+            }
         }
     }
 }
